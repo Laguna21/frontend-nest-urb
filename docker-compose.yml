@@ -1,0 +1,15 @@
+services:
+  frontend:
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - API_URL=http://backend:5000
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external: true

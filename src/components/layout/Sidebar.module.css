@@ -1,0 +1,13 @@
+.logo {
+  @apply h-20 mx-auto py-4;
+}
+
+.navContainer {
+  @apply mt-10 flex flex-col gap-8 flex-grow px-4 pt-5;
+}
+
+.logoutBtn {
+  @apply text-white bg-black bg-opacity-30 rounded-md p-3 m-4;
+  @apply transition-colors flex gap-3 justify-center items-center font-semibold;
+  @apply focus:outline-none hover:bg-opacity-50;
+}
