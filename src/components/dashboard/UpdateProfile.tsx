@@ -14,6 +14,10 @@ export default function UpdateProfile() {
   const { data, isLoading, refetch } = useQuery(
     `user-${authenticatedUser.id}`,
     () => userService.findOne(authenticatedUser.id),
+    {
+      refetchOnWindowFocus: false,
+      staleTime: 0,
+    },
   );
   const {
     register,

@@ -50,8 +50,8 @@ export default function App() {
 
           <AuthRoute exact path="/login" component={Login} />
         </Switch>
+        <FloatingRefresh />
       </Router>
-      <FloatingRefresh />
     </>
   ) : null;
 }

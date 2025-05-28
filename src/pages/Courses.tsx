@@ -9,6 +9,7 @@ import Modal from '../components/shared/Modal';
 import useAuth from '../hooks/useAuth';
 import CreateCourseRequest from '../models/course/CreateCourseRequest';
 import courseService from '../services/CourseService';
+import Course from '../models/course/Course';
 
 export default function Courses() {
   const [coursesFilter, setCoursesFilter] = useState({
@@ -19,6 +20,7 @@ export default function Courses() {
 
   const [addCourseShow, setAddCourseShow] = useState<boolean>(false);
   const [error, setError] = useState<string>();
+  const [buyedC, setBuyedC] = useState<Course[]>();
 
   const { authenticatedUser } = useAuth();
 
@@ -29,6 +31,10 @@ export default function Courses() {
 
     return () => clearTimeout(timer);
   }, [coursesFilter]);
+
+  useEffect(() => {
+    if (authenticatedUser?.enrollments?.length) buyedCoursesToList();
+  }, []);
 
   const { data, isLoading, refetch } = useQuery(
     ['courses', coursesSearch],
@@ -71,6 +77,17 @@ export default function Courses() {
     }));
   };
 
+  const buyedCoursesToList = () => {
+    const bCourse = authenticatedUser.enrollments.map((it) => {
+      return {
+        id: it.course.id,
+        name: it.course.name,
+        description: it.course.description,
+        dateCreated: new Date(it.enrollmentDate),
+      };
+    });
+    setBuyedC(bCourse);
+  };
   return (
     <Layout>
       <h1 className="font-semibold text-3xl mb-5">Manage Courses</h1>
@@ -106,7 +123,13 @@ export default function Courses() {
       </div>
 
       <CoursesTable data={data} isLoading={isLoading} />
-
+      {buyedC?.length ? (
+        <div className="mt-6">
+          <h1 className="font-semibold text-3xl mb-5">Cursos adquiridos</h1>
+          <hr />
+          <CoursesTable data={buyedC} isLoading={isLoading} />
+        </div>
+      ) : null}
       {/* Add User Modal */}
       <Modal show={addCourseShow}>
         <div className="flex">

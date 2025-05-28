@@ -1,13 +1,18 @@
 import { useQueryClient } from 'react-query';
 import { RefreshCw } from 'react-feather';
+import { useLocation } from 'react-router-dom';
 
 export function FloatingRefresh() {
   const queryClient = useQueryClient();
+  const location = useLocation();
 
   const handleRefresh = () => {
     queryClient.invalidateQueries();
   };
 
+  if (location.pathname === '/login') {
+    return null;
+  }
   return (
     <button
       onClick={handleRefresh}

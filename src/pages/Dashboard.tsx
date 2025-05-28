@@ -54,7 +54,7 @@ export default function Dashboard() {
             </div>
 
             {/* Sección de últimos cursos para no-admins */}
-            {authenticatedUser.role !== 'admin' && (
+            {!['admin', 'editor'].includes(authenticatedUser.role) && (
               <div className="card shadow">
                 <h2 className="font-semibold text-xl mb-3">Latest Courses</h2>
                 <LatestCourses />
